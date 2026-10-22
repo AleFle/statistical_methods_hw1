@@ -1,0 +1,267 @@
+---
+title: "GroupI_HM1"
+author: "Flego, Gigante , Rua Apaza, Norbedo, Ortoleva"
+output: 
+  pdf_document:
+    toc: true
+    toc_depth: 3
+date: "2026-10-31"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## FSDS - Chapter 2
+
+### Ex 2.8
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 2.16
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 2.21
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 2.26
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 2.52
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 2.53
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 2.70
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+## FSDS - Chapter 3
+
+### Ex 3.18
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 3.28
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 3.24
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+## FSDS - Chapter 4
+
+### Ex 4.14
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 4.16
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 4.48
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+## FSDS - Chapter 5
+
+### Ex 5.2
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 5.12
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 5.50
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+
+
+## CS - Chapter 1
+
+### Ex 1.1
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 1.6
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+## CS - Chapter 3
+
+### Ex 3.5
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
+
+### Ex 3.6
+
+*Here the text.*
+
+**Solution**
+
+Add comments to the solution.
+
+```{r, echo=T}
+# code here
+```
