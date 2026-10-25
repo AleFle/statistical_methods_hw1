@@ -16,15 +16,30 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Ex 2.8
 
-*Here the text.*
+Each time a person shops at a grocery store, the event of catching a cold or some other virus from another shopper is independent from visit to visit and has a constant probability over the year, equal to 0.01.
+
+(a) In 100 trips to this store over the course of a year, the probability of catching a virus while shopping there is 100(0.01) = 1.0. What is wrong with this reasoning?
+(b) Find the correct probability in (a).
 
 **Solution**
 
-Add comments to the solution.
+#### (a)
 
-```{r, echo=T}
-# code here
+The formula at point (a) is the formula for the expected value of a Binomial distribution ($\mathbb{E}(X) = np$). Summing the event probabilities is allowed only if the events are mutually exclusive, but in this case they are independent. Furthermore, if we visited the store 150 times, the probability would be 1.5, which is impossible.
+
+#### (b)
+
+The actual probability, for 100 independent events with constant probability, is $$P(X \ge 1) = P(X = 1) + \dots + P(X = 100)$$ Since it is too long to compute directly, we can simply compute $$P(X \ge 1) = 1 - P(X = 0)$$ that is to say, 1 minus the probability of never catching a virus. The probability of catching the virus in one visit is $p = 0.01$, so the probability of not catching it in one visit is $1 - p = 0.99$. Since we are dealing with independent events, the probability of not catching the virus in all 100 visits is simply: $$P(X = 0) = (1 - p)^{100} = (0.99)^{100}$$
+
+```{r, echo=TRUE}
+n <- 100
+p <- 0.01
+p_0 <- (1 - p)**n
+p_ge1 <- 1 - p_0
+p_ge1
 ```
+
+Finally, the probability of catching the virus at least once in 100 visits is: $$P(X \ge 1) = 1 - P(X = 0) = 1 - (0.99)^{100} \approx `r round(p_ge1, 3)`$$
 
 ### Ex 2.16
 
@@ -52,15 +67,64 @@ Add comments to the solution.
 
 ### Ex 2.26
 
-*Here the text.*
+Refer to Table 2.4 cross classifying happiness with family income.
+
+(a) Find and interpret the correlation using scores (i) (1, 2, 3) for each variable, (ii) (1, 2, 3) for family income and (1, 4, 5) for happiness.   
+(b) Construct the joint distribution that has these marginal distributions and exhibits independence of $X$ and $Y$.   
 
 **Solution**
 
-Add comments to the solution.
+#### (a)
+
+To calculate the correlation $\rho$ between $X$ (family income) and $Y$ (happiness), we use the expected values and variances of $X$ and $Y$:
+
+$$\rho = \frac{E[XY] - E[X]E[Y]}{\sqrt{Var(X) \cdot Var(Y)}}$$
+
+
+(i) Scores $(1, 2, 3)$ for both $X$ and $Y$
+
+
+$$\rho \approx 0.1907$$
+
+Weak positive correlation. People with higher family income tend to report slightly higher happiness levels.
+
+(ii) Scores $(1, 2, 3)$ for $X$ and $(1, 4, 5)$ for $Y$
+
+$$\rho \approx 0.1898$$
+
+The correlation remains almost unchanged.
 
 ```{r, echo=T}
-# code here
+P <- matrix(c(0.080, 0.198, 0.079,
+              0.043, 0.254, 0.143,
+              0.017, 0.105, 0.081),
+              nrow = 3, byrow = T
+            )
+
+get_rho <- function (x, y, P ) {
+  r   <- rowSums ( P )
+  c   <- colSums ( P )
+  Ex  <- sum ( r * x ) ; Ey <- sum ( c * y )
+  Ex2 <- sum ( r * x ^2) ; Ey2 <- sum (c * y ^2)
+  EXY <- sum ( P * outer (x , y ) )
+
+  ( EXY - Ex * Ey ) / sqrt (( Ex2 - Ex ^2) * ( Ey2 - Ey ^2) )
+}
+
+rho1 <- get_rho(1:3, 1:3, P)
+rho2 <- get_rho(1:3, c(1, 4, 5), P)
+round(c(rho1, rho2), 4)
 ```
+
+#### (b)
+
+Under independence, $P(X=x, Y=y) = P(X=x) \cdot P(Y=y)$.
+
+Multiplying row totals $(0.357, 0.440, 0.203)$ by column totals $(0.140, 0.557, 0.303)$ gives:
+
+$$P_{ind} = \begin{pmatrix} 0.050 & 0.199 & 0.108 \\ 0.062 & 0.245 & 0.133 \\ 0.028 & 0.113 & 0.062 \end{pmatrix}$$
+
+Summing across each row or column restores the original marginal probabilities.
 
 ### Ex 2.52
 
@@ -74,17 +138,31 @@ Add comments to the solution.
 # code here
 ```
 
-### Ex 2.53
+### Ex. 2.53
 
-*Here the text.*
+If $Y$ is a standard normal random variable, with cdf $\Phi$, what is the probability distribution
+of $X = \Phi(Y)$? Illustrate by randomly generating a million standard normal random variables,
+applying the cdf function $\Phi()$ to each, and plotting histograms of the (a) $y$ values, (b) $x$ values.
 
 **Solution**
 
-Add comments to the solution.
+So $Y \sim \mathcal{N}(0, 1)$, with $\Phi(y) = P(Y \le y)$. Since $\Phi(y)$ returns a probability value, $0 \le \Phi(y) \le 1$ and so $0 \le X \le 1$. In order to understand how $X$ is distributed in this interval, we can try to compute the distribution function of $X$, that is to say $$F_X(x) = P(X \le x) = P(\Phi(Y) \le x)$$
+We want to isolate $Y$ so we apply the inverse function: $$F_X(x) = P(X \le x) = P(Y \le \Phi^{-1}(x))$$
+By definition $P(Y \le a) = \Phi(a)$ then $$F_X(x) = \Phi(\Phi^{-1}(x)) = x \sim \mathcal{U}(0,1)$$
 
-```{r, echo=T}
-# code here
+
+```{r, echo=TRUE, fig.width=8, fig.height=4}
+set.seed(123)
+y <- rnorm(1000000)
+x <- pnorm(y)
+
+par(mfrow = c(1, 2))
+hist(y, freq = FALSE, main = "(a) Histogram of y", xlab = "y", col = "lightblue")
+hist(x, freq = FALSE, main = "(b) Histogram of x", xlab = "x", col = "lightgreen")
 ```
+
+#### Comment
+We can see that histogram (a) clearly shows a Standard Normal distribution with its typical symmetric bell shape centered at 0, while histogram (b) clearly follows a continuous Uniform distribution on $[0, 1]$ since all bars have a similar height (density close to 1). This empirically confirms our theoretical result that $X = \Phi(Y) \sim \text{Unif}(0, 1)$.
 
 ### Ex 2.70
 
@@ -114,15 +192,24 @@ Add comments to the solution.
 
 ### Ex 3.28
 
-*Here the text.*
+A survey is planned to estimate the population proportion $\pi$ supporting more government action to address global warming. For a simple random sample, if $\pi$ may be near $0.50$, how large should $n$ be so that the standard error of the sample proportion $(\hat{\pi})$ is $0.04$?
 
 **Solution**
 
-Add comments to the solution.
+The standard error formula for a sample proportion is:
 
-```{r, echo=T}
-# code here
-```
+$$SE(\hat{\pi}) = \sqrt{\frac{\pi(1 - \pi)}{n}}$$
+
+* Target Standard Error: $SE(\hat{\pi}) = 0.04$
+* Estimated proportion: $\pi = 0.50$
+
+$$\sqrt{\dfrac{0.50 (1 - 0.5)}{n}} = \sqrt{\dfrac{1}{4n}} = 0.04$$
+
+$$n = \dfrac{1}{4 \cdot 0.04^2} = 156.25$$
+
+Since sample size must be a whole number of individuals:
+
+$$n = \lceil 156.25 \rceil = 157$$
 
 ### Ex 3.24
 
@@ -134,21 +221,60 @@ Add comments to the solution.
 
 ```{r, echo=T}
 # code here
+
 ```
 
 ## FSDS - Chapter 4
 
 ### Ex 4.14
 
-*Here the text.*
+Using the Students data file, for the corresponding population, construct a 95% confidence interval 
+
+(a) for the mean weekly number of hours spent watching TV;  
+(b) to compare females and males on the mean weekly number of hours spent watching TV. 
+
+In each case, state assumptions, including the practical importance of each, and interpret results.
 
 **Solution**
 
-Add comments to the solution.
+We start loading the data.
 
-```{r, echo=T}
-# code here
+```{r, echo=TRUE}
+data <- read.table("Students.dat", header = TRUE)
+head(data)
 ```
+### a
+In order to make a 95% CI for the mean of the population $\mu$ when $\sigma$ is not known, we use the Student's t: $$ \bar{y} \pm t_{0.025,df} \cdot \frac{s}{\sqrt{n}}$$
+
+```{r, echo=TRUE}
+CI_95 <- t.test(data$tv, conf.level = 0.95)
+CI_95
+```
+
+So the sample mean is $\bar{Y}=7.266667$ and the CI is $[5.531395, 9.001938]$.
+
+##### The fundamental assumptions for this interval are:
+
+1. The 60 students must be a representative random sample of the target population. Id the sample is distorted, the inference cannot be generalised.
+
+2. The TV hour distribution should be Normal. The one-sample t-test is very robust to deviations from normality when the sample size is not small (here $n = 60 \ge 30$), thanks to the CLT.
+
+### b compare females and males
+
+We make now a 95% CI for the difference between the mean of the 2 grups ($\mu_{females} - \mu_{males}$) using `TV` and `gender` columns.
+
+```{r, echo=TRUE}
+CI_d95 <- t.test(data$tv~data$gender)
+CI_d95
+```
+
+##### The fundamental assumptions for this interval are:
+
+1. The two groups (males and females) must be drawn from independent random samples. Practical significance: this is essential for the validity of the inference.
+
+2. The variable `tv` should be normally distributed in both groups. Here too, the two-sample $t$-test is robust to non-normality thanks to the size of the two subsamples (around 30 per group). (Note: by using Welch’s test, we do not need to assume that the variances are equal, i.e. $\sigma_0^2 = \sigma_1^2$, which protects us from further errors).
+
+* **Interpretation:** The 95% confidence interval for the difference in population means ($\mu_0 - \mu_1$, males minus females) is (`r round(CI_d95$conf.int[1], 2)`, `r round(CI_d95$conf.int[2], 2)`) hours. Since this interval contains $0$ (and the p-value is `r round(CI_d95$p.value, 3)` $> 0.05$), we fail to reject $H_0: \mu_0 = \mu_1$. We conclude that there is no statistically significant difference between males and females in the mean weekly hours spent watching TV (males could watch up to ~5 hours less or up to ~2 hours more than females on average)
 
 ### Ex 4.16
 
@@ -178,15 +304,34 @@ Add comments to the solution.
 
 ### Ex 5.2
 
-*Here the text.*
+When a government does not have enough money to pay for the services that it provides, it can raise taxes or it can reduce services. When the Florida Poll asked a random sample of 1200 Floridians which they preferred, 52% (624 of the 1200) chose *raise taxes* and 48% chose reduce services. 
+
+Let $\pi$ denote the population proportion of Floridians who would choose raising taxes. Analyze whether this is a minority of the population ($\pi < 0.50$) or a majority ($\pi > 0.50$) by testing $H_0: \pi = 0.50$ against $H_a: \pi \neq 0.50$. Interpret the $P$-value. Is it appropriate to “accept $H_0$? Why or why not?
 
 **Solution**
 
-Add comments to the solution.
+$n = 1200 \quad X = 624 \quad \hat{\pi} = 0.52$
 
-```{r, echo=T}
-# code here
-```
+Test:
+
+$$
+\begin{align*}
+H_0 &: \pi = 0.50 \\
+H_a &: \pi \neq 0.50
+\end{align*}
+$$
+
+Under the null hypothesis, the standard error is calculated as:
+
+$$\text{SE}_0(\hat{\pi}) = \sqrt{\frac{0.50 \times 0.50}{1200}} \approx 0.01443$$
+
+This gives a Wald test statistic of:
+
+$$Z = \frac{0.52 - 0.50}{0.01443} \approx 1.386$$
+
+The corresponding two-sided p-value is $2 \times P(Z \ge 1.386) \approx 0.166$. Because $p = 0.166 > 0.05$, there is insufficient statistical evidence to reject $H_0$. The observed 52% preference can be naturally accounted for by random sampling variation.
+
+We avoid stating that we "accept" $H_0$ because a non-significant result merely shows that the observed data are compatible with the null hypothesis, not that $\pi = 0.50$ is proven true. Frequentist hypothesis tests control for Type I errors rather than proving null parameters, so a high p-value might simply reflect limited power to detect small deviations.
 
 ### Ex 5.12
 
@@ -202,16 +347,21 @@ Add comments to the solution.
 
 ### Ex 5.50
 
-*Here the text.*
+A random sample of size $40$ has $\bar{y} = 120$. The P-value for testing $H_0: \mu = 100$ against $H_a: \mu \neq 100$ is $0.057$. Explain what is incorrect about each of the following interpretations of this P-value, and provide a proper interpretation.
+
+(a) The probability that $H_0$ is correct equals $0.057$.  
+(b) The probability that $\bar{y} = 120$ if $H_0$ is true equals $0.057$.  
+(c) The probability of Type I error equals $0.057$.  
+(d) We can accept $H_0$ at the $\alpha = 0.05$ level.
 
 **Solution**
 
-Add comments to the solution.
+* **(a) Incorrect:** In classical (frequentist) inference, the population parameter $\mu$ is fixed, not a random variable, so $H_0$ is either true (probability $1$) or false (probability $0$). The P-value is the probability of observing extreme data given that $H_0$ is true, $P(\text{extreme data} \mid H_0)$, not the probability that $H_0$ is true given the data, $P(H_0 \mid \text{data})$.
+* **(b) Incorrect:** For a continuous sampling distribution, the probability of observing the exact value $\bar{y} = 120$ is $0$. The P-value refers to the probability of observing a sample mean **at least as extreme as** $120$ in either tail (i.e., $\bar{Y} \ge 120$ or $\bar{Y} \le 80$).
+* **(c) Incorrect:** The probability of a Type I error is the preset significance level $\alpha$ (e.g., $\alpha = 0.05$), not the P-value, which varies from sample to sample. Moreover, if we do not reject $H_0$ (since $0.057 > 0.05$), we cannot commit a Type I error at all—we only risk committing a **Type II error**.
+* **(d) Incorrect:** When the P-value is greater than $\alpha = 0.05$, we **fail to reject $H_0$** rather than "accepting" it. Failing to find sufficient evidence against $\mu = 100$ does not prove that $\mu$ is equal to $100$; many other values around $100$ are also plausible.
 
-```{r, echo=T}
-# code here
-```
-
+* **Proper Interpretation:** Assuming that the null hypothesis $H_0: \mu = 100$ is true, the probability of obtaining a sample mean $\bar{Y}$ at least $20$ units away from $100$ in either direction (that is, $\bar{Y} \ge 120$ or $\bar{Y} \le 80$) in a random sample of size $40$ is $0.057$.
 
 
 ## CS - Chapter 1
@@ -244,15 +394,40 @@ Add comments to the solution.
 
 ### Ex 3.5
 
-*Here the text.*
+Consider solving the matrix equation $Ax = y$ for $x$, where $y$ is a known $n$-vector and $A$ is a known $n \times n$ matrix. The formal solution to the problem is $x = A^{-1}y$, but it is possible to solve the equation directly, without actually forming $A^{-1}$.
+
+a. First create an $A$, $x$ and $y$ satisfying $Ax = y$.
+b. Using `solve`, form the matrix $A^{-1}$ explicitly and then form $x_1 = A^{-1}y$. Note how long this takes and assess the mean absolute error.
+c. Now use `solve` to directly solve for $x$ without forming $A^{-1}$. Note how long this takes and assess the mean absolute error.
+d. What do you conclude?
 
 **Solution**
 
 Add comments to the solution.
 
 ```{r, echo=T}
-# code here
+set.seed(0)
+n <- 1000
+A <- matrix(runif(n * n), n, n)
+x.true <- runif(n)
+y <- A %*% x.true
+
+t1 <- system.time({
+  A_inv <- solve(A)
+  x1 <- A_inv %*% y
+})
+mae1 <- mean(abs(x1 - x.true))
+
+t2 <- system.time({
+  x2 <- solve(A, y)
+})
+mae2 <- mean(abs(x2 - x.true))
+
+cat("Explicit inverse : Time =", t1["elapsed"], "s , MAE =", mae1, "\n")
+cat("Direct solution  : Time =", t2["elapsed"], "s , MAE =", mae2, "\n")
 ```
+
+Directly solving the linear system using `solve(A, y)` is strongly preferred: it is significantly faster and numerically more accurate (having a lower mean absolute error) than explicitly inverting the matrix via `solve(A) %*% y`.
 
 ### Ex 3.6
 
