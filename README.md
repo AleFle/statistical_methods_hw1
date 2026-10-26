@@ -2,7 +2,7 @@
 
 ## Group I
 
-Flego, Gigante , Rua Apaza, Norbedo, Ortoleva
+Flego, Gigante, Norbedo, Ortoleva, Mutua
 
 ## Exercises
 

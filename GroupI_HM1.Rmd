@@ -1,6 +1,6 @@
 ---
 title: "GroupI_HM1"
-author: "Flego, Gigante , Rua Apaza, Norbedo, Ortoleva, Mutua"
+author: "Flego, Gigante, Norbedo, Ortoleva, Mutua"
 output: 
   pdf_document:
     toc: true
@@ -70,26 +70,32 @@ Better. For a rare disease in a very large population, each person has a small p
 
 ```{r, echo=T}
 set.seed(42)
-n   <- 1000
+n <- 1000
 lam <- 3
 
 ind <- rbinom(n, size = 1e6, prob = lam / 1e6)
 
 # Clustered cases: Poisson(1) primary cases per week, each bringing Poisson(2) linked cases.
 # The mean is still 3, but admissions arrive in clumps.
-clu <- replicate(n, { k <- rpois(1, 1); sum(1 + rpois(k, 2)) })
+clu <- replicate(n, {
+  k <- rpois(1, 1)
+  sum(1 + rpois(k, 2))
+})
 
 dis <- function(y) var(y) / mean(y)
 round(c(independent = dis(ind), clustered = dis(clu)), 2)
 
 show <- function(y, main) {
   m <- max(y)
-  hist(y, breaks = seq(-0.5, m + 0.5, 1), freq = FALSE, col = "lightblue",
-       main = main, xlab = "Weekly admissions")
+  hist(y,
+    breaks = seq(-0.5, m + 0.5, 1), freq = FALSE, col = "lightblue",
+    main = main, xlab = "Weekly admissions"
+  )
   points(0:m, dpois(0:m, mean(y)), type = "b", col = "red", pch = 16, lwd = 2)
   legend("topright", c("observed", "Poisson(mean)"),
-         fill = c("lightblue", NA), border = c("black", NA),
-         col = c(NA, "red"), lty = c(NA, 1), pch = c(NA, 16), cex = 0.8)
+    fill = c("lightblue", NA), border = c("black", NA),
+    col = c(NA, "red"), lty = c(NA, 1), pch = c(NA, 16), cex = 0.8
+  )
 }
 
 par(mfrow = c(2, 2))
@@ -141,20 +147,25 @@ $$\rho \approx 0.1898$$
 The correlation remains almost unchanged.
 
 ```{r, echo=T}
-P <- matrix(c(0.080, 0.198, 0.079,
-              0.043, 0.254, 0.143,
-              0.017, 0.105, 0.081),
-              nrow = 3, byrow = T
-            )
+P <- matrix(
+  c(
+    0.080, 0.198, 0.079,
+    0.043, 0.254, 0.143,
+    0.017, 0.105, 0.081
+  ),
+  nrow = 3, byrow = T
+)
 
-get_rho <- function (x, y, P ) {
-  r   <- rowSums ( P )
-  c   <- colSums ( P )
-  Ex  <- sum ( r * x ) ; Ey <- sum ( c * y )
-  Ex2 <- sum ( r * x ^2) ; Ey2 <- sum (c * y ^2)
-  EXY <- sum ( P * outer (x , y ) )
+get_rho <- function(x, y, P) {
+  r <- rowSums(P)
+  c <- colSums(P)
+  Ex <- sum(r * x)
+  Ey <- sum(c * y)
+  Ex2 <- sum(r * x^2)
+  Ey2 <- sum(c * y^2)
+  EXY <- sum(P * outer(x, y))
 
-  ( EXY - Ex * Ey ) / sqrt (( Ex2 - Ex ^2) * ( Ey2 - Ey ^2) )
+  (EXY - Ex * Ey) / sqrt((Ex2 - Ex^2) * (Ey2 - Ey^2))
 }
 
 rho1 <- get_rho(1:3, 1:3, P)
@@ -239,14 +250,18 @@ y <- seq(0, 1, length.out = 5)
 dbeta(y, 1, 1)
 dunif(y, 0, 1)
 
-par(mfrow=c(1,2))
+par(mfrow = c(1, 2))
 
 n <- 1e5
-hist(rbeta(n, 1, 1), freq = FALSE, breaks = 30, col = "blue",
-     ylim = c(0, 2), xlab = "y", main = "Beta(1,1) sample")
+hist(rbeta(n, 1, 1),
+  freq = FALSE, breaks = 30, col = "blue",
+  ylim = c(0, 2), xlab = "y", main = "Beta(1,1) sample"
+)
 abline(h = 1, col = "red", lwd = 2)
-hist(runif(n, 0, 1), freq = FALSE, breaks = 30, col = "yellow",
-     ylim = c(0, 2), xlab = "y", main = "Unif(0,1) sample")
+hist(runif(n, 0, 1),
+  freq = FALSE, breaks = 30, col = "yellow",
+  ylim = c(0, 2), xlab = "y", main = "Unif(0,1) sample"
+)
 abline(h = 1, col = "red", lwd = 2)
 ```
 
@@ -325,8 +340,8 @@ For fixed $\alpha+\beta$, $\mu(1-\mu)$ is largest at $\mu = 1/2$ and tends to 0 
 #### (d)
 
 ```{r, echo=T}
-cols  <- c("red", "blue", "green", "yellow", "orange")
-x <- seq(1e-6,0.999999,length.out=1000)
+cols <- c("red", "blue", "green", "yellow", "orange")
+x <- seq(1e-6, 0.999999, length.out = 1000)
 
 # f <- function(x, a, b){
 #   exp(lgamma(a+b) - (lgamma(a) + lgamma(b)) + log(x)*(a-1) + log(1-x)*(b-1))
@@ -336,28 +351,34 @@ par(mfrow = c(1, 3))
 
 # (i) alpha = beta
 alpha <- c(0.5, 1, 10, 100)
-beta  <- alpha
-curve(dbeta(x,alpha[1],beta[1]), 1e-6, 999999e-6, col = cols[1], lwd = 2, ylim=c(0,12),
-      xlab="x", ylab="f(x)",
-      main=expression(paste("Beta pdf, ", alpha, " = ", beta)))
-for (i in 2:4) curve(dbeta(x,alpha[i],beta[i]),add = TRUE, col = cols[i], lwd = 2)
+beta <- alpha
+curve(dbeta(x, alpha[1], beta[1]), 1e-6, 999999e-6,
+  col = cols[1], lwd = 2, ylim = c(0, 12),
+  xlab = "x", ylab = "f(x)",
+  main = expression(paste("Beta pdf, ", alpha, " = ", beta))
+)
+for (i in 2:4) curve(dbeta(x, alpha[i], beta[i]), add = TRUE, col = cols[i], lwd = 2)
 legend("top", legend = paste0("a = b =", alpha), col = cols, lwd = 2)
 
 # (ii) alpha > beta
-ab = list(c(20,5), c(5,2), c(2,1), c(2,0.5), c(0.7,0.2))
-curve(dbeta(x,ab[[1]][1],ab[[1]][2]), 1e-6, 999999e-6, col = cols[1], lwd = 2, ylim=c(0,6),
-      xlab="x", ylab="f(x)",
-      main=expression(paste("Beta pdf, ", alpha, " > ", beta)))
-for (i in 2:5) curve(dbeta(x,ab[[i]][1],ab[[i]][2]),add = TRUE, col = cols[i], lwd = 2)
-legend("top", legend = sapply(ab, function(p)paste0("a=",p[1]," b=", p[2])), col = cols, lwd = 2)
+ab <- list(c(20, 5), c(5, 2), c(2, 1), c(2, 0.5), c(0.7, 0.2))
+curve(dbeta(x, ab[[1]][1], ab[[1]][2]), 1e-6, 999999e-6,
+  col = cols[1], lwd = 2, ylim = c(0, 6),
+  xlab = "x", ylab = "f(x)",
+  main = expression(paste("Beta pdf, ", alpha, " > ", beta))
+)
+for (i in 2:5) curve(dbeta(x, ab[[i]][1], ab[[i]][2]), add = TRUE, col = cols[i], lwd = 2)
+legend("top", legend = sapply(ab, function(p) paste0("a=", p[1], " b=", p[2])), col = cols, lwd = 2)
 
 # (iii) alpha < beta
-ab = list(c(5,20), c(2,5), c(1,2), c(0.5,2), c(0.2,0.7))
-curve(dbeta(x,ab[[1]][1],ab[[1]][2]), 1e-6, 999999e-6, col = cols[1], lwd = 2, ylim=c(0,6),
-      xlab="x", ylab="f(x)",
-      main=expression(paste("Beta pdf, ", alpha, " < ", beta)))
-for (i in 2:5) curve(dbeta(x,ab[[i]][1],ab[[i]][2]),add = TRUE, col = cols[i], lwd = 2)
-legend("top", legend = sapply(ab, function(p)paste0("a=",p[1]," b=", p[2])), col = cols, lwd = 2)
+ab <- list(c(5, 20), c(2, 5), c(1, 2), c(0.5, 2), c(0.2, 0.7))
+curve(dbeta(x, ab[[1]][1], ab[[1]][2]), 1e-6, 999999e-6,
+  col = cols[1], lwd = 2, ylim = c(0, 6),
+  xlab = "x", ylab = "f(x)",
+  main = expression(paste("Beta pdf, ", alpha, " < ", beta))
+)
+for (i in 2:5) curve(dbeta(x, ab[[i]][1], ab[[i]][2]), add = TRUE, col = cols[i], lwd = 2)
+legend("top", legend = sapply(ab, function(p) paste0("a=", p[1], " b=", p[2])), col = cols, lwd = 2)
 ```
 
 ##### Shape
@@ -425,7 +446,6 @@ Add comments to the solution.
 
 ```{r, echo=T}
 # code here
-
 ```
 
 ## FSDS - Chapter 4
@@ -470,7 +490,7 @@ So the sample mean is $\bar{Y}=7.266667$ and the CI is $[5.531395, 9.001938]$.
 We make now a 95% CI for the difference between the mean of the 2 grups ($\mu_{females} - \mu_{males}$) using `TV` and `gender` columns.
 
 ```{r, echo=TRUE}
-CI_d95 <- t.test(data$tv~data$gender)
+CI_d95 <- t.test(data$tv ~ data$gender)
 CI_d95
 ```
 
@@ -523,11 +543,11 @@ tab <- tapply(substance$count, list(substance$alcohol, substance$marijuana), sum
 tab
 
 success <- tab[c("yes", "no"), "yes"]
-total   <- rowSums(tab)[c("yes", "no")]
+total <- rowSums(tab)[c("yes", "no")]
 
 p_hat <- success / total
-d     <- p_hat[1] - p_hat[2]
-se    <- sqrt(sum(p_hat * (1 - p_hat) / total))
+d <- p_hat[1] - p_hat[2]
+se <- sqrt(sum(p_hat * (1 - p_hat) / total))
 d + c(-1, 1) * qnorm(0.975) * se
 
 prop.test(success, total, correct = FALSE)$conf.int
