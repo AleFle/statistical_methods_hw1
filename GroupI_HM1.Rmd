@@ -493,7 +493,6 @@ Construct a population distribution that is plausible for $Y = \text{number of a
 
 #### Solution (a)
 ```{r, echo=T}
-
 my_seed <- 6632L
 # each index represents the number of drinks consumed the past day
 #        0    1     2    3      4     5    6      7
@@ -504,8 +503,8 @@ stopifnot("must sum to 1" = sum(p) == 1)
 
 # Theoretical population parameters
 real_mean <- sum(y_values * p)
-real_var  <- sum((y_values - real_mean)^2 * p)
-real_sd   <- sqrt(real_var)
+real_var <- sum((y_values - real_mean)^2 * p)
+real_sd <- sqrt(real_var)
 
 # ------------------------------------------------------------------------------
 # Part (a): Single Random Sample (n = 1000)
@@ -515,7 +514,7 @@ sample_size <- 1000
 s <- sample(x = y_values, size = sample_size, replace = TRUE, prob = p)
 
 sample_mean <- mean(s)
-sample_sd   <- sd(s)
+sample_sd <- sd(s)
 
 sample_data <- c(sample_mean, sample_sd)
 real_data <- c(real_mean, real_sd)
@@ -523,7 +522,7 @@ data.frame(
   Metric = c("Mean", "SD"),
   Sample = round(sample_data, 3),
   Real = round(real_data, 3),
-  Difference = round(sample_data - real_data,4)
+  Difference = round(sample_data - real_data, 4)
 )
 ```
 *Giulio's comment*
@@ -532,7 +531,7 @@ In part (a) with a sample size of 1000, since I got a mu that was "very close" t
 But if we measure the distance in terms of theoretical standard deviations:
 ```{r,echo=T}
 z_obs <- (sample_mean - real_mean) / (real_sd / sqrt(sample_size))
-cat("z_obs:",z_obs)
+cat("z_obs:", z_obs)
 ```
 We see that the sample mean is way far from being expected. We also can set a test hypothesis to answer the following: "If the real mean is 2.16, how much is the probability to observe a mean which is at least as rare as 2.317?" that is:
 $$
@@ -546,7 +545,7 @@ $$
 Calculating the p-value:
 ```{r, echo=T}
 p_val <- 2 * pnorm(abs(z_obs), lower.tail = FALSE)
-cat("p-value:", p_val, "(", round(p_val *100, 2), "%)")
+cat("p-value:", p_val, "(", round(p_val * 100, 2), "%)")
 ```
 Basically almost none, and this is expected because I selected a particuar anomalous seed.
 
@@ -570,17 +569,17 @@ sample_means <- replicate(
 
 # Empirical parameters of the sampling distribution
 sim_sampling_mean <- mean(sample_means)
-sim_sampling_sd   <- sd(sample_means)
+sim_sampling_sd <- sd(sample_means)
 
 # Theoretical parameters of the sampling distribution
 theo_sampling_mean <- real_mean
-theo_sampling_sd   <- real_sd / sqrt(sample_size)
+theo_sampling_sd <- real_sd / sqrt(sample_size)
 
 data.frame(
   Metric = c("Mean", "SD"),
   Simulated = round(c(sim_sampling_mean, sim_sampling_sd), 3),
   Theoretical = round(c(real_mean, theo_sampling_sd), 3),
-  Difference = round(c(sim_sampling_mean, sim_sampling_sd) - c(real_mean, theo_sampling_sd),3)
+  Difference = round(c(sim_sampling_mean, sim_sampling_sd) - c(real_mean, theo_sampling_sd), 3)
 )
 ```
 
@@ -760,7 +759,7 @@ Which is more informative, and why?
 **Data setup**
 
 ```{r, echo=TRUE}
- menu_a <- data.frame(
+menu_a <- data.frame(
   day  = "tuesday",
   n    = 43,
   mean = 22.30,
@@ -768,10 +767,10 @@ Which is more informative, and why?
 )
 
 menu_b <- data.frame(
- day  = "wednesday",
- n    = 50,
- mean = 25.91,
- s    = 8.01
+  day  = "wednesday",
+  n    = 50,
+  mean = 25.91,
+  s    = 8.01
 )
 
 ab_test <- data.frame(
@@ -823,12 +822,12 @@ $$
 We can now compute the t-test statistic:
 ```{r, echo=TRUE}
 ab_test$t_obs <- (ab_test$sample_mean) / ab_test$s
-cat("t_obs:",ab_test$t_obs)
+cat("t_obs:", ab_test$t_obs)
 ```
 The p_value:
 ```{r, echo=TRUE}
-ab_test$p_value = pnorm(ab_test$t_obs, lower.tail = FALSE) * 2
-cat("p_value:", ab_test$p_value, "< alpha=0.05 :",ab_test$p_value < 0.05 )
+ab_test$p_value <- pnorm(ab_test$t_obs, lower.tail = FALSE) * 2
+cat("p_value:", ab_test$p_value, "< alpha=0.05 :", ab_test$p_value < 0.05)
 ```
 With a significance level $\alpha = 0.05$ we would reject the null hypothesis, so the menus are actually statistically different.
 
@@ -847,10 +846,10 @@ IC <- data.frame(
 We first fix an alpha, which for 95% confidence is 0.05, then can compute $z_{\alpha/2}$, then we can compute upper and lower since we have all the terms:
 ```{r, echo=T}
 alpha <- 0.05
-IC$z_crit = abs(qnorm(alpha/2))
-IC$SE     = round(ab_test$s,3)
-IC$upper  = round(IC$mean + IC$z_crit * ab_test$s, 3)
-IC$lower  = round(IC$mean - IC$z_crit * ab_test$s, 3)
+IC$z_crit <- abs(qnorm(alpha / 2))
+IC$SE <- round(ab_test$s, 3)
+IC$upper <- round(IC$mean + IC$z_crit * ab_test$s, 3)
+IC$lower <- round(IC$mean - IC$z_crit * ab_test$s, 3)
 IC
 ```
 
@@ -1008,31 +1007,32 @@ set.seed(7)
 #' @param x A numeric vector.
 #' @return A numeric vector.
 #' @export
-my_cdf <- function (x, plot = FALSE) {
+my_cdf <- function(x, plot = FALSE) {
   sx <- sort.int(x)
   cdf_vals <- findInterval(x, sx) / length(x)
-  if (plot){
+  if (plot) {
     plot(sx, sort.int(cdf_vals),
-         ylim = range(0,1),
-         main = "Empirical CDF",
-         xlab = TeX(r'(Observed values ($x_i$) )'),
-         ylab = TeX(r'($\hat{F}_n(x)$)'),
-         col = "blue",
-         lwd = 2,
-         type = "s")
+      ylim = range(0, 1),
+      main = "Empirical CDF",
+      xlab = TeX(r'(Observed values ($x_i$) )'),
+      ylab = TeX(r'($\hat{F}_n(x)$)'),
+      col = "blue",
+      lwd = 2,
+      type = "s"
+    )
   }
   cdf_vals
 }
 
-x <- rnorm(100000, mean=0, sd=1)
+x <- rnorm(100000, mean = 0, sd = 1)
 stopifnot(
   "my_cdf vs R cdf must return the same result" = (
     isTRUE(all.equal(my_cdf(x), ecdf(x)(x)))
   )
 )
 n <- 1000
-vals <- my_cdf(rnorm(n, mean=0, sd=1), plot=TRUE);
-vals <- my_cdf(runif(n), plot=TRUE);
+vals <- my_cdf(rnorm(n, mean = 0, sd = 1), plot = TRUE)
+vals <- my_cdf(runif(n), plot = TRUE)
 ```
 
 *Giulio's comments*:
