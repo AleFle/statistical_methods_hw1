@@ -41,7 +41,7 @@ p_ge1
 
 Finally, the probability of catching the virus at least once in 100 visits is: $$P(X \ge 1) = 1 - P(X = 0) = 1 - (0.99)^{100} \approx `r round(p_ge1, 3)`$$
 
-### Ex 2.16 (Faddy Mutua)
+### Ex 2.16 (Fadhla Mohamed Mutua)
 
 Each day a hospital records the number of people who come to the emergency room for treatment.
 
@@ -264,7 +264,7 @@ hist(x, freq = FALSE, main = "(b) Histogram of x", xlab = "x", col = "lightgreen
 
 We can see that histogram (a) clearly shows a Standard Normal distribution with its typical symmetric bell shape centered at 0, while histogram (b) clearly follows a continuous Uniform distribution on $[0, 1]$ since all bars have a similar height (density close to 1). This empirically confirms our theoretical result that $X = \Phi(Y) \sim \text{Unif}(0, 1)$.
 
-### Ex 2.70 (Faddy Mutua)
+### Ex 2.70 (Fadhla Mohamed Mutua)
 
 The beta distribution is a probability distribution over $(0, 1)$ that is often used in applications for which the random variable is a proportion. The beta pdf is $$f(y; \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\,y^{\alpha-1}(1 - y)^{\beta-1}, \qquad 0 \le y \le 1$$ for parameters $\alpha$ and $\beta$, where $\Gamma(\cdot)$ denotes the gamma function.
 
@@ -638,7 +638,7 @@ CI_d95
 
 - **Interpretation:** The 95% confidence interval for the difference in population means ($\mu_0 - \mu_1$, males minus females) is (`r round(CI_d95$conf.int[1], 2)`, `r round(CI_d95$conf.int[2], 2)`) hours. Since this interval contains $0$ (and the p-value is `r round(CI_d95$p.value, 3)` $> 0.05$), we fail to reject $H_0: \mu_0 = \mu_1$. We conclude that there is no statistically significant difference between males and females in the mean weekly hours spent watching TV (males could watch up to \~5 hours less or up to \~2 hours more than females on average)
 
-### Ex 4.16 (Faddy Mutua)
+### Ex 4.16 (Fadhla Mohamed Mutua)
 
 The Substance data file at the book's website shows a contingency table formed from a survey that asked a sample of high school students whether they have ever used alcohol, cigarettes, and marijuana. Construct a 95% Wald confidence interval to compare those who have used or not used alcohol on whether they have used marijuana, using (a) formula (4.13); (b) software. State assumptions for your analysis, and interpret results.
 
@@ -881,7 +881,7 @@ A random sample of size $40$ has $\bar{y} = 120$. The P-value for testing $H_0: 
 
 ## CS - Chapter 1
 
-### Ex 1.1 (Faddy Mutua)
+### Ex 1.1 (Fadhla Mohamed Mutua)
 
 An exponential random variable $X \ge 0$ has p.d.f. $f(x) = \lambda e^{-\lambda x}$, with $\lambda > 0$.
 
