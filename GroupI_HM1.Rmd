@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## FSDS - Chapter 2
 
-### Ex 2.8
+### Ex 2.8 (Nicola Gigante)
 
 Each time a person shops at a grocery store, the event of catching a cold or some other virus from another shopper is independent from visit to visit and has a constant probability over the year, equal to 0.01.
 
@@ -41,7 +41,7 @@ p_ge1
 
 Finally, the probability of catching the virus at least once in 100 visits is: $$P(X \ge 1) = 1 - P(X = 0) = 1 - (0.99)^{100} \approx `r round(p_ge1, 3)`$$
 
-### Ex 2.16
+### Ex 2.16 (Faddy Mutua)
 
 Each day a hospital records the number of people who come to the emergency room for treatment.
 
@@ -107,7 +107,7 @@ plot(clu[1:52], type = "h", xlab = "Week", ylab = "Admissions", main = "Clusters
 
 In the independent case the histogram follows the Poisson curve and $\text{var}/\text{mean} \approx 1$. In the clustered case the mean is the same, but the distribution has more zeros and a heavier right tail, with $\text{var}/\text{mean} \approx 3.7$.
 
-### Ex 2.21
+### Ex 2.21 (Alessio Flego)
 
 *Here the text.*
 
@@ -119,7 +119,7 @@ Add comments to the solution.
 # code here
 ```
 
-### Ex 2.26
+### Ex 2.26 (Giovanni Norbedo)
 
 Refer to Table 2.4 cross classifying happiness with family income.
 
@@ -183,7 +183,7 @@ $$P_{ind} = \begin{pmatrix} 0.050 & 0.199 & 0.108 \\ 0.062 & 0.245 & 0.133 \\ 0.
 
 Summing across each row or column restores the original marginal probabilities.
 
-### Exercise 2.52
+### Ex 2.52 (Giulio Ortoleva)
 
 The *pdf* $f$ of a $N(\mu, \sigma^2)$ distribution can be derived from the standard normal *pdf* $\phi$ shown in equation (2.9).
 
@@ -242,7 +242,7 @@ $$
 $$
 Which is exactly equation 2.8
 
-### Ex. 2.53
+### Ex 2.53 (Nicola Gigante)
 
 If $Y$ is a standard normal random variable, with cdf $\Phi$, what is the probability distribution of $X = \Phi(Y)$? Illustrate by randomly generating a million standard normal random variables, applying the cdf function $\Phi()$ to each, and plotting histograms of the (a) $y$ values, (b) $x$ values.
 
@@ -264,7 +264,7 @@ hist(x, freq = FALSE, main = "(b) Histogram of x", xlab = "x", col = "lightgreen
 
 We can see that histogram (a) clearly shows a Standard Normal distribution with its typical symmetric bell shape centered at 0, while histogram (b) clearly follows a continuous Uniform distribution on $[0, 1]$ since all bars have a similar height (density close to 1). This empirically confirms our theoretical result that $X = \Phi(Y) \sim \text{Unif}(0, 1)$.
 
-### Ex 2.70
+### Ex 2.70 (Faddy Mutua)
 
 The beta distribution is a probability distribution over $(0, 1)$ that is often used in applications for which the random variable is a proportion. The beta pdf is $$f(y; \alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\Gamma(\beta)}\,y^{\alpha-1}(1 - y)^{\beta-1}, \qquad 0 \le y \le 1$$ for parameters $\alpha$ and $\beta$, where $\Gamma(\cdot)$ denotes the gamma function.
 
@@ -450,7 +450,7 @@ For a fixed mean, a larger $\alpha+\beta$ gives a smaller variance. Small totals
 
 ## FSDS - Chapter 3
 
-### Ex 3.18
+### Ex 3.18 (Alessio Flego)
 
 *Here the text.*
 
@@ -462,7 +462,7 @@ Add comments to the solution.
 # code here
 ```
 
-### Ex 3.28
+### Ex 3.28 (Giovanni Norbedo)
 
 A survey is planned to estimate the population proportion $\pi$ supporting more government action to address global warming. For a simple random sample, if $\pi$ may be near $0.50$, how large should $n$ be so that the standard error of the sample proportion $(\hat{\pi})$ is $0.04$?
 
@@ -483,7 +483,7 @@ Since sample size must be a whole number of individuals:
 
 $$n = \lceil 156.25 \rceil = 157$$
 
-### Ex 3.24
+### Ex 3.24 (Giulio Ortoleva)
 
 Construct a population distribution that is plausible for $Y = \text{number of alcoholic drinks in the past day}$.
 
@@ -493,7 +493,7 @@ Construct a population distribution that is plausible for $Y = \text{number of a
 
 #### Solution (a)
 ```{r, echo=T}
-# Exercise 3.24
+
 my_seed <- 6632L
 # each index represents the number of drinks consumed the past day
 #        0    1     2    3      4     5    6      7
@@ -586,7 +586,7 @@ data.frame(
 
 ## FSDS - Chapter 4
 
-### Ex 4.14
+### Ex 4.14 (Nicola Gigante)
 
 Using the Students data file, for the corresponding population, construct a 95% confidence interval
 
@@ -638,7 +638,7 @@ CI_d95
 
 - **Interpretation:** The 95% confidence interval for the difference in population means ($\mu_0 - \mu_1$, males minus females) is (`r round(CI_d95$conf.int[1], 2)`, `r round(CI_d95$conf.int[2], 2)`) hours. Since this interval contains $0$ (and the p-value is `r round(CI_d95$p.value, 3)` $> 0.05$), we fail to reject $H_0: \mu_0 = \mu_1$. We conclude that there is no statistically significant difference between males and females in the mean weekly hours spent watching TV (males could watch up to \~5 hours less or up to \~2 hours more than females on average)
 
-### Ex 4.16
+### Ex 4.16 (Faddy Mutua)
 
 The Substance data file at the book's website shows a contingency table formed from a survey that asked a sample of high school students whether they have ever used alcohol, cigarettes, and marijuana. Construct a 95% Wald confidence interval to compare those who have used or not used alcohol on whether they have used marijuana, using (a) formula (4.13); (b) software. State assumptions for your analysis, and interpret results.
 
@@ -693,7 +693,7 @@ prop.test(success, total, correct = FALSE)$conf.int
 
 We are 95% confident that the proportion who have used marijuana is between 0.449 and 0.501 higher among students who have used alcohol than among those who have not.
 
-### Ex 4.48
+### Ex 4.48 (Alessio Flego)
 
 *Here the text.*
 
@@ -707,7 +707,7 @@ Add comments to the solution.
 
 ## FSDS - Chapter 5
 
-### Ex 5.2
+### Ex 5.2 (Giovanni Norbedo)
 
 When a government does not have enough money to pay for the services that it provides, it can raise taxes or it can reduce services. When the Florida Poll asked a random sample of 1200 Floridians which they preferred, 52% (624 of the 1200) chose *raise taxes* and 48% chose reduce services.
 
@@ -738,7 +738,7 @@ The corresponding two-sided p-value is $2 \times P(Z \ge 1.386) \approx 0.166$. 
 
 We avoid stating that we "accept" $H_0$ because a non-significant result merely shows that the observed data are compatible with the null hypothesis, not that $\pi = 0.50$ is proven true. Frequentist hypothesis tests control for Type I errors rather than proving null parameters, so a high p-value might simply reflect limited power to detect small deviations.
 
-### Ex. 5.12
+### Ex 5.12 (Giulio Ortoleva)
 
 The example in Section 3.1.4 described an experiment to estimate the mean sales with a proposed menu for a new restaurant.
 
@@ -858,7 +858,7 @@ IC
 The confidence interval is more informative because it states, with a confidence of 95%, the interval of values in which the real difference could actually be (from a bayesian point of view).
 So in this case for example we can say not only that the two menus are different, but with a good level of confidence also that it differs at least of a delta=$0.584, so the menu B is very likely to be more profitable at least per person.
 
-### Ex 5.50
+### Ex 5.50 (Nicola Gigante)
 
 A random sample of size $40$ has $\bar{y} = 120$. The P-value for testing $H_0: \mu = 100$ against $H_a: \mu \neq 100$ is $0.057$. Explain what is incorrect about each of the following interpretations of this P-value, and provide a proper interpretation.
 
@@ -881,7 +881,7 @@ A random sample of size $40$ has $\bar{y} = 120$. The P-value for testing $H_0: 
 
 ## CS - Chapter 1
 
-### Ex 1.1
+### Ex 1.1 (Faddy Mutua)
 
 An exponential random variable $X \ge 0$ has p.d.f. $f(x) = \lambda e^{-\lambda x}$, with $\lambda > 0$.
 
@@ -933,7 +933,7 @@ $$
 
 **Variance.** $$V(X) = E[X^2] - (E[X])^2 = \frac{2}{\lambda^2} - \frac{1}{\lambda^2} = \boxed{\frac{1}{\lambda^2}}$$
 
-### Ex 1.6
+### Ex 1.6 (Alessio Flego)
 
 *Here the text.*
 
@@ -947,7 +947,7 @@ Add comments to the solution.
 
 ## CS - Chapter 3
 
-### Ex 3.5
+### Ex 3.5 (Giovanni Norbedo)
 
 Consider solving the matrix equation $Ax = y$ for $x$, where $y$ is a known $n$-vector and $A$ is a known $n \times n$ matrix. The formal solution to the problem is $x = A^{-1}y$, but it is possible to solve the equation directly, without actually forming $A^{-1}$.
 
@@ -984,7 +984,7 @@ cat("Direct solution  : Time =", t2["elapsed"], "s , MAE =", mae2, "\n")
 
 Directly solving the linear system using `solve(A, y)` is strongly preferred: it is significantly faster and numerically more accurate (having a lower mean absolute error) than explicitly inverting the matrix via `solve(A) %*% y`.
 
-### Ex 3.6
+### Ex 3.6 (Giulio Ortoleva)
 The empirical cumulative distribution function for a set of measurements $\{x_i : i = 1, \dots, n\}$ is
 $$ \hat{F}(x) = \frac{\#\{x_i < x\}}{n} $$
 where $\#\{x_i < x\}$ denotes 'number of $x_i$ values less than $x$'. When answering the following, try to ensure that your code is commented, clearly structured, and tested. To test your code, generate random samples using `rnorm`, `runif`, etc.
